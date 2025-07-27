@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>영상 플레이어</title>
+    
+    <!-- 0727_back 프로젝트의 CSS 파일들 -->
+    <link rel="stylesheet" type="text/css" href="./common/css/common.css" />
+    
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+    <!-- 0727_back 프로젝트의 라이브러리 파일들 -->
+    <script src="./common/js/lib/jquery.mCustomScrollbar.min.js"></script>
+    <script src="./common/js/lib/jquery.fullscreen.js"></script>
+    <script src="./common/js/lib/jquery.mousewheel.min.js"></script>
+    
+    <!-- 0727_back 프로젝트의 JavaScript 파일들 -->
+    <script src="./manage.js"></script>
+    <!-- 0727_back 프로젝트의 JavaScript 파일들 -->
+    <script src="./common/js/utility.js"></script>
+    <script src="./common/js/controller.js"></script>
+    <script src="./common/js/menu.js"></script>
+    <script src="./common/js/resize.js"></script>
+</head>
+<body>
+    <div class="content">
+        <div class="scrownPlayer">
+            <div class="scrownMedia"></div>
+            <div class="scriptObj"></div>
+            <div class="menuObj"></div>
+            <div class="helpObj"></div>
+        </div>
+    </div>
+
+    <script>
+        // URL 파라미터에서 영상 파일명 가져오기
+        function getUrlParameter(name) {
+            name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+            var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+            var results = regex.exec(location.search);
+            return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+        }
+
+        // 영상 정보 설정 (0727_back 프로젝트와 동일한 형식)
+        var videoFile = getUrlParameter('video');
+        if (!videoFile) {
+            alert('영상 파일이 지정되지 않았습니다.');
+            window.close();
+        }
+
+        // VIDEO_LIST와 현재 영상 파일명을 window에 할당
+        window.VIDEO_LIST = typeof VIDEO_LIST !== 'undefined' ? VIDEO_LIST : [];
+        window.videoFile = videoFile;
+
+        // 글로벌 변수들 설정
+        var CHAPTER = 1;
+        var NOWPAGE = 1;
+        var TOTALPAGE = 1;
+        var MACHINE_TYPE = 'PC';
+        var BROWSER_TYPE = 'Chrome';
+        var FULLSCREEN_VISIBLE = true;
+        var FULL_SCREEN = false;
+        var PORTING = true;
+        var CONTAINER = document.querySelector('.content');
+        var QUIZ_SUMMARY_END = false;
+        var QUIZS_START_SINK = 2;
+        var CONTROLL_HEIGHT = 40;
+        var SITETYPE = "vill";
+        var isNextMovieShowFlag = false;
+        var loadFrameURL;
+        var groupCode = "1001451";
+        var isTYPE;
+        var HTML_TYPE;
+        var COURSE_TITLE = "영상 플레이어";
+        var scoCurPnum = 1;
+        var prograteList = [];
+        var curPage;
+        var curPageStatus;
+        var curLastTime;
+        var porting = false; // 포팅 모드 비활성화
+        var controlBar = true; // 컨트롤바 활성화
+
+        // MEDIA_INFO를 전역 변수로 설정 (controller.js에서 사용)
+        var MEDIA_INFO = {
+            type: "mp4",
+            link: "./movies/" + videoFile,
+            vtt: "",
+            sink: [],
+            script: ""
+        };
+
+        // 메뉴 정보 설정 (menu.js에서 사용)
+        var MENU_INFO = [
+            {
+                mainTitle: "영상 플레이어",
+                subMenu: [
+                    { title: "영상 재생" }
+                ]
+            }
+        ];
+
+        // 페이지 정보 설정 (controller.js에서 사용)
+        var PAGE_INFO = [
+            {
+                type: "mp4",
+                title: "영상 재생"
+            }
+        ];
+
+        // 페이지 로드 완료 후 플레이어 초기화
+        $(document).ready(function() {
+            console.log('페이지 로드 완료');
+            console.log('MEDIA_INFO:', MEDIA_INFO);
+            console.log('PAGE_INFO:', PAGE_INFO);
+            
+            // 브라우저 타입 확인
+            if (navigator.userAgent.indexOf('Chrome') !== -1) {
+                BROWSER_TYPE = 'Chrome';
+            } else if (navigator.userAgent.indexOf('Firefox') !== -1) {
+                BROWSER_TYPE = 'Firefox';
+            } else if (navigator.userAgent.indexOf('Safari') !== -1) {
+                BROWSER_TYPE = 'Safari';
+            } else if (navigator.userAgent.indexOf('MSIE') !== -1 || navigator.userAgent.indexOf('Trident') !== -1) {
+                BROWSER_TYPE = 'IE';
+            }
+            
+            // 기기 타입 확인
+            if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                MACHINE_TYPE = 'Mobile';
+            }
+
+            // 컨트롤러 초기화
+            console.log('컨트롤러 초기화 시작');
+            controller.init();
+            console.log('컨트롤러 초기화 완료');
+            
+            // 메뉴 초기화
+            console.log('메뉴 초기화 시작');
+            menu.init();
+            console.log('메뉴 초기화 완료');
+            
+            // 리사이즈 이벤트 설정
+            resize.resizeScale();
+            resize.windowResizeChk();
+            
+            // 페이지 제목 설정
+            document.title = "영상 재생 - " + videoFile;
+        });
+
+        // 오류 메시지 표시
+        function showError(message) {
+            $('.scrownMedia').html('<div style="color: white; text-align: center; padding: 50px; font-size: 18px;">' + message + '</div>');
+        }
+
+        // ESC 키로 전체화면 해제
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                if (document.fullscreenElement) {
+                    document.exitFullscreen();
+                }
+            }
+        });
+
+        // 스페이스바로 재생/일시정지
+        document.addEventListener('keydown', function(e) {
+            if (e.code === 'Space') {
+                e.preventDefault();
+                $('.st-playBtn').click();
+            }
+        });
+    </script>
+</body>
+</html> 
