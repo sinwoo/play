@@ -37,7 +37,7 @@ var VIDEO_LIST = [
     {
         id: 5,
         title: "05. 아동학대 신고의무자 교육",
-        filename: "http://kscsea87.ipdisk.co.kr:80/publist/VOL1/%EC%9D%B4%EC%8B%A0%EC%9A%B0%EC%9D%98%20%EC%8B%A0%EB%AC%98%ED%95%9C%20ai%20%EA%B0%9C%EB%B0%9C%EB%AA%A8%EB%93%9C/05.mp4",
+        filename: "https://www.monory.co.kr/media/05.mp4",
         description: "아동학대 신고의무자 교육에 관한 교육 내용"
     }
     // {
@@ -61,4 +61,5 @@ function getVideoById(id) {
 // 영상 파일 경로를 가져오는 함수
 function getVideoPath(filename) {
     return "./movies/" + filename;
+
 } 
