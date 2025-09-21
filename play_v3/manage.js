@@ -13,37 +13,37 @@ var VIDEO_LIST = [
     {
         id: 1,
         title: "1주차 1차시",
-        filename: "http://kscsea87.ipdisk.co.kr:80/publist/VOL1/%EC%9D%B4%EC%8B%A0%EC%9A%B0%EC%9D%98%20%EC%8B%A0%EB%AC%98%ED%95%9C%20ai%20%EA%B0%9C%EB%B0%9C%EB%AA%A8%EB%93%9C/01.mp4",
+        filename: "https://www.monory.co.kr/media/01.mp4",
         description: "학원 강사 채용과 해임에 관한 교육 내용"
     },
     {
         id: 2,
         title: "1주차 2차시",
-        filename: "http://kscsea87.ipdisk.co.kr:80/publist/VOL1/%EC%9D%B4%EC%8B%A0%EC%9A%B0%EC%9D%98%20%EC%8B%A0%EB%AC%98%ED%95%9C%20ai%20%EA%B0%9C%EB%B0%9C%EB%AA%A8%EB%93%9C/02.mp4",
+        filename: "https://www.monory.co.kr/media/02.mp4",
         description: "학원 및 교습소 지도 점검에 관한 교육 내용"
     },
     {
         id: 3,
         title: "1주차 3차시",
-        filename: "http://kscsea87.ipdisk.co.kr:80/publist/VOL1/%EC%9D%B4%EC%8B%A0%EC%9A%B0%EC%9D%98%20%EC%8B%A0%EB%AC%98%ED%95%9C%20ai%20%EA%B0%9C%EB%B0%9C%EB%AA%A8%EB%93%9C/03.mp4",
+        filename: "https://www.monory.co.kr/media/03.mp4",
         description: "외국인 강사 대상 연수에 관한 교육 내용"
     },
     {
         id: 4,
         title: "3주차 1차시",
-        filename: "http://kscsea87.ipdisk.co.kr:80/publist/VOL1/%EC%9D%B4%EC%8B%A0%EC%9A%B0%EC%9D%98%20%EC%8B%A0%EB%AC%98%ED%95%9C%20ai%20%EA%B0%9C%EB%B0%9C%EB%AA%A8%EB%93%9C/04.mp4",
+        filename: "https://www.monory.co.kr/media/04.mp4",
         description: "긴급복지 신고의무자 교육에 관한 교육 내용"
     },
     {
         id: 5,
         title: "3주차 2차시",
-        filename: "http://kscsea87.ipdisk.co.kr:80/publist/VOL1/%EC%9D%B4%EC%8B%A0%EC%9A%B0%EC%9D%98%20%EC%8B%A0%EB%AC%98%ED%95%9C%20ai%20%EA%B0%9C%EB%B0%9C%EB%AA%A8%EB%93%9C/05.mp4",
+        filename: "https://www.monory.co.kr/media/05.mp4",
         description: "아동학대 신고의무자 교육에 관한 교육 내용"
     },
     {
         id: 6,
         title: "3주차 3차시",
-        filename: "http://kscsea87.ipdisk.co.kr:80/publist/VOL1/%EC%9D%B4%EC%8B%A0%EC%9A%B0%EC%9D%98%20%EC%8B%A0%EB%AC%98%ED%95%9C%20ai%20%EA%B0%9C%EB%B0%9C%EB%AA%A8%EB%93%9C/06.mp4",
+        filename: "https://www.monory.co.kr/media/06.mp4",
         description: "장애인학대 신고의무자 교육에 관한 교육 내용"
     }
 ];
@@ -63,3 +63,4 @@ function getVideoPath(filename) {
     return "./movies/" + filename;
 
 } 
+
